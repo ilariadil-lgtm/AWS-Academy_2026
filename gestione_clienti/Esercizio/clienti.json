@@ -1,0 +1,14 @@
+[
+    {
+        "cliente": "Mario Rossi",
+        "progetto": "Sito Web",
+        "compenso": 800.5,
+        "stato": "da_fatturare"
+    },
+    {
+        "cliente": "Mario Rossi",
+        "progetto": "Sito web aziendale",
+        "compenso": 1500.0,
+        "stato": "in_corso"
+    }
+]
