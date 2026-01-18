@@ -1,0 +1,15 @@
+# Personal test files
+
+# Python temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# OS specific files
+.DS_Store
+test_elisabetta.py

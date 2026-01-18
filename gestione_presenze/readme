@@ -1,0 +1,119 @@
+# App Gestione Presenze 
+
+## 🎯 Obiettivo
+Realizzare un applicativo per la **gestione presenze** con:
+- gestione **corsi**
+- gestione **studenti**
+- **registro presenze** per data con vista “visuale”
+- **persistenza** su file `.json` (salvataggio + ripristino automatico)
+
+---
+
+## ✅ Features (Checklist)
+
+### 1) 📚 Gestione Corsi
+- [ ] **Creazione corso**: aggiunta di un nuovo corso al registro
+- [ ] **Visualizzazione corsi**: elenco completo dei corsi attivi
+- [ ] **Modifica corso**: rinominazione di un corso esistente
+- [ ] **Eliminazione corso**: cancellazione di un corso e dei dati associati (studenti + registro)
+
+**Criteri di accettazione**
+- Un corso non può avere nome vuoto.
+- Se si rinomina un corso, tutti i dati devono “seguire” il nuovo nome (nessuna perdita).
+- Eliminando un corso, spariscono anche studenti e storico presenze di quel corso.
+
+---
+
+### 2) 🎓 Gestione Studenti
+- [ ] **Iscrizione studente**: aggiunta di uno studente dentro uno specifico corso
+- [ ] **Anagrafica studenti**: lista studenti per corso
+- [ ] **Modifica dati**: aggiornamento del nome studente
+- [ ] **Rimozione studente**: eliminazione di uno studente dal corso
+
+**Criteri di accettazione**
+- Ogni studente deve avere un **id univoco** (es. UUID).
+- Non sono ammessi nomi vuoti.
+- Rimuovendo uno studente, le presenze associate devono essere gestite (es. eliminate o ignorate in report).
+
+---
+
+### 3) 🗓️ Registro Presenze
+- [ ] **Input giornaliero**: inserimento dello stato presenza per una data specifica
+- [ ] **Visualizzazione visuale**: report presenze per data con indicatori grafici immediati  
+  - 🟢 Presente  
+  - 🔴 Assente  
+  - ⚠️ Ritardo *(opzionale)*
+- [ ] **Storico**: dati mantenuti e consultabili nel tempo
+
+**Criteri di accettazione**
+- Le date sono registrate in formato coerente (es. `DD-MM-YYYY`).
+- Per una stessa data, uno studente ha **un solo stato**.
+- Il report deve mostrare tutti gli studenti del corso anche se non hanno stato (es. “Non segnato”).
+
+---
+
+### 4) 💾 Persistenza Dati
+- [ ] **Salvataggio JSON**: corsi, studenti e registro presenze vengono salvati su file `.json`
+- [ ] **Caricamento automatico**: ripristino dello stato dell'app all’avvio
+
+**Criteri di accettazione**
+- Se il file non esiste, l’app parte con struttura vuota senza crash.
+- Se il file è corrotto, l’app deve gestire l’errore (messaggio + fallback sicuro).
+
+---
+
+## 🧱 Struttura Dati (JSON)
+
+### Esempio
+```json
+{
+  "NomeCorso": {
+    "studenti": [
+      { "id": "uuid", "nome": "Mario Rossi" }
+    ],
+    "registro": {
+      "13-01-2026": { "uuid": "Presente" }
+    }
+  }
+}
+```
+
+### Regole di struttura
+- La chiave principale è il **nome del corso**.
+- Ogni corso contiene:
+  - `studenti`: lista di oggetti `{id, nome}`
+  - `registro`: dizionario per data
+    - chiave: data `DD-MM-YYYY`
+    - valore: dizionario `{ <id_studente>: <stato> }`
+
+### Stati ammessi
+- `Presente`
+- `Assente`
+- `Ritardo` *(se implementato)*
+
+---
+
+## 📦 Output atteso (Deliverable)
+- Un file JSON (es. `presenze.json`) salvato nella directory del progetto.
+- Funzioni/azioni per:
+  - CRUD corsi
+  - CRUD studenti
+  - Inserimento/aggiornamento presenze per data
+  - Report per data (con icone)
+
+---
+
+## 🧪 Test manuali minimi (Smoke Test)
+1. Creare corso “Python Base” → deve comparire in elenco.
+2. Aggiungere 2 studenti → devono comparire in anagrafica.
+3. Inserire presenze per oggi → il report per oggi mostra 🟢/🔴 correttamente.
+4. Riavviare app → dati devono essere ancora presenti.
+5. Eliminare corso → spariscono studenti e presenze del corso.
+
+---
+
+## 📝 Note operative
+- Suggerito: generare `id` tramite UUID.
+- Suggerito: usare una funzione “salva” dopo ogni operazione che modifica lo stato.
+- Suggerito: validare input (nome corso/studente, formato data, stato).
+

@@ -1,0 +1,23 @@
+{
+  "Python": {
+    "studenti": [
+      {
+        "id": "bdeb233d-cf00-4ae1-825e-afa93e5ec875",
+        "nome": "Tizio "
+      },
+      {
+        "id": "cde6d6c4-14b0-4382-8285-391f0ae4bb25",
+        "nome": "Caio"
+      }
+    ],
+    "registro": {
+      "13-01-2026": {
+        "bdeb233d-cf00-4ae1-825e-afa93e5ec875": "Presente"
+      }
+    }
+  },
+  "Antigravity": {
+    "studenti": [],
+    "registro": {}
+  }
+}
