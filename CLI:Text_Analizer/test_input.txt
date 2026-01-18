@@ -1,0 +1,3 @@
+Google Gemini è un modello di intelligenza artificiale molto potente.
+Questo testo serve per testare il funzionamento dell'analisi del sentiment.
+Speriamo che il risultato sia positivo!
