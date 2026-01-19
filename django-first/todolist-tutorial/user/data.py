@@ -1,4 +1,4 @@
-user_lists = [
+user_list = [
   {
     "id": 1,
     "name": "Leanne Graham",
