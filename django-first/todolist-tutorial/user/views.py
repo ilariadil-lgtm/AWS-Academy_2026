@@ -10,7 +10,7 @@ def users(request):
 
 
 def user(request, id):
-    user = next((u for u in user_list if u.get("id") == id), None)
+    user = next((u for u in user_list if u.get("id") == 1), None)
 
     if user is None:
         return JsonResponse({"error": "User not found"}, status=404) 
