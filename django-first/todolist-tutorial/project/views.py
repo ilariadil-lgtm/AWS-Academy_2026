@@ -1,39 +1,12 @@
 from django.shortcuts import render
-
-# Create your views here.
-
-
-from django.http import HttpResponse, JsonResponse
-
-user_data = {
-    "id": 1,
-    "name": "Leanne Graham",
-    "username": "Bret",
-    "email": "Sincere@april.biz",
-    "address": {
-      "street": "Kulas Light",
-      "suite": "Apt. 556",
-      "city": "Gwenborough",
-      "zipcode": "92998-3874",
-      "geo": {
-        "lat": "-37.3159",
-        "lng": "81.1496"
-      }
-    },
-    "phone": "1-770-736-8031 x56442",
-    "website": "hildegard.org",
-    "company": {
-      "name": "Romaguera-Crona",
-      "catchPhrase": "Multi-layered client-server neural-net",
-      "bs": "harness real-time e-markets"
-    }
-}
+from django.http import JsonResponse
+from .models import Project
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the project index.")
+  projects = Project.objects.all().values()
+  print(projects)
+  return JsonResponse(list(projects), safe=False)
 
-def pippo(request):
-    return HttpResponse("Hello,pippo.")
-
-def user(request):
-    return JsonResponse(user_data)
+def add_project(request):
+  project = Project.objects.create(title="Nuovo progetto", is_available=True)
+  return JsonResponse({'id': project.id, 'title': project.title, 'is_available': project.is_available})
