@@ -41,8 +41,21 @@ python manage.py migrate
 
 ## Start the Server
 
+### 1. Activate virtual environment (if not already active)
+
+```bash
+source venv/bin/activate
+```
+
+### 2. Run the server
+
 ```bash
 python manage.py runserver
+```
+
+**Alternative (one-line command):**
+```bash
+./venv/bin/python manage.py runserver
 ```
 
 Open in browser:
