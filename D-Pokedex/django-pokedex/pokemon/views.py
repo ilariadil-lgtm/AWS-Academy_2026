@@ -6,12 +6,23 @@ from django.views.decorators.http import require_POST, require_GET, require_http
 import json
 from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
+@require_POST
 def add_pokemon(request):
-    pokemon = Pokemon.objects.create(name="Bulbasaur", pokedex_id=1)
-    return JsonResponse({'id': pokemon.id, 'name':pokemon.name, 'pokedex_id': pokemon.pokedex_id})
-
-
-"""@csrf_exempt
+        data = json.loads(request.body)
+        
+        pokemon = Pokemon.objects.create(
+            name=data['name'], 
+            pokedex_id=data['pokedex_id']
+        )
+        
+        return JsonResponse({
+            'id': pokemon.id, 
+            'name': pokemon.name, 
+            'pokedex_id': pokemon.pokedex_id
+        }, status=201)
+    
+@csrf_exempt
 @require_GET
 def get_pokemon_list(request):
     try:
@@ -26,6 +37,8 @@ def get_pokemon_list(request):
         # Errore generico imprevisto
         return JsonResponse({'error': str(e)}, status=500)
     
+
+"""@csrf_exempt
 @csrf_exempt 
 @require_POST
 def add_pokemon(request):
