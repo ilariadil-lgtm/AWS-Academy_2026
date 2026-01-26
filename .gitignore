@@ -5,7 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
-
+*.pyc
 .DS_Store
 
 # VS Code
@@ -210,3 +210,5 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
