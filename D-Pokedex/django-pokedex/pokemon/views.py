@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 @require_POST
 def add_pokemon(request):
+    try:
         data = json.loads(request.body)
         
         pokemon = Pokemon.objects.create(
@@ -21,6 +22,25 @@ def add_pokemon(request):
             'name': pokemon.name, 
             'pokedex_id': pokemon.pokedex_id
         }, status=201)
+    
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'JSON non valido'}, status=400)
+    
+    except KeyError as e:
+        return JsonResponse({'error': f'Campo mancante: {e}'}, status=400)
+    
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Tipo di dato non valido'}, status=400)
+    
+    except IntegrityError:
+        return JsonResponse({'error': 'Pokemon già esistente'}, status=409)
+    
+    except OperationalError:
+        return JsonResponse({'error': 'Database non disponibile'}, status=503)
+    
+    except Exception as e:
+        return JsonResponse({'error': 'Errore interno del server'}, status=500)
+
     
 @csrf_exempt
 @require_GET
