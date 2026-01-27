@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('project_details/', include("project_details.urls")),
+    path('project-details/', include("project_details.urls")),
+    path('tags/', include("tag.urls")),
     path('tasks/', include("task.urls")),
     path('projects', include("project.urls")),
     path('admin/', admin.site.urls),

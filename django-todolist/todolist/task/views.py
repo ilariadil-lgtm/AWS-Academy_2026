@@ -5,6 +5,34 @@ from django.db import IntegrityError, OperationalError
 import json
 from project.models import Project
 from task.models import Task
+from tag.models import Tag
+
+@csrf_exempt
+@require_POST
+def add_tag(request): 
+    try:
+        data = json.loads(request.body)
+
+        tag = Tag.objects.get(id=data['tag_id'])
+        task = Task.objects.get(id=data['task_id'])
+
+        task.tags.add(tag)
+
+        return JsonResponse({
+            'message': 'Tag aggiunto',
+            'task_id': str(task.id),
+            'tags': list(task.tags.values('id', 'name'))
+        }, status=200)
+    
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'JSON non valido'}, status=400)
+    
+    except KeyError as e:
+        return JsonResponse({'error': f'Campo mancante: {e}'}, status=400)
+    
+    except Tag.DoesNotExist:
+        return JsonResponse({'error': 'Tag non trovato'}, status=404)
+
 
 @csrf_exempt
 @require_POST
@@ -39,6 +67,7 @@ def create_task(request):
     except IntegrityError:
         return JsonResponse({'error': 'Task già esistente'}, status=409)
 
+@csrf_exempt
 @require_GET
 def get_task(request, project_id):
     try:
