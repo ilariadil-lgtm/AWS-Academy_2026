@@ -118,3 +118,4 @@ def update_put_pokemon(request, id):
     except json.JSONDecodeError:
         return JsonResponse({'error': 'JSON non valido'}, status=400)
 
+ 
