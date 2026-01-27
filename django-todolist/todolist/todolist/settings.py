@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'project',
     'project_details',
     'task',
+    'tag',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
