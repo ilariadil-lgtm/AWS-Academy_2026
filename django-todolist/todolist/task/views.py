@@ -7,9 +7,10 @@ from project.models import Project
 from task.models import Task
 from tag.models import Tag
 
+
 @csrf_exempt
 @require_POST
-def add_tag(request): 
+def add_tag(request):
     try:
         data = json.loads(request.body)
 
@@ -23,13 +24,13 @@ def add_tag(request):
             'task_id': str(task.id),
             'tags': list(task.tags.values('id', 'name'))
         }, status=200)
-    
+
     except json.JSONDecodeError:
         return JsonResponse({'error': 'JSON non valido'}, status=400)
-    
+
     except KeyError as e:
         return JsonResponse({'error': f'Campo mancante: {e}'}, status=400)
-    
+
     except Tag.DoesNotExist:
         return JsonResponse({'error': 'Tag non trovato'}, status=404)
 
@@ -39,33 +40,34 @@ def add_tag(request):
 def create_task(request):
     try:
         data = json.loads(request.body)
-        
+
         # Verifica che il progetto esista
         project = Project.objects.get(id=data['project_id'])
-        
+
         task = Task.objects.create(
             title=data['title'],
             project=project
         )
-        
+
         return JsonResponse({
             'id': task.id,
             'title': task.title,
             'is_complete': task.is_complete,
             'project_id': task.project.id
         }, status=201)
-    
+
     except json.JSONDecodeError:
         return JsonResponse({'error': 'JSON non valido'}, status=400)
-    
+
     except KeyError as e:
         return JsonResponse({'error': f'Campo mancante: {e}'}, status=400)
-    
+
     except Project.DoesNotExist:
         return JsonResponse({'error': 'Progetto non trovato'}, status=404)
-    
+
     except IntegrityError:
         return JsonResponse({'error': 'Task già esistente'}, status=409)
+
 
 @csrf_exempt
 @require_GET
@@ -74,8 +76,8 @@ def get_task(request, project_id):
         # 1. Usa filter() invece di get() - un progetto può avere più task
         # 2. Usa values() per serializzare
         tasks = list(Task.objects.filter(project_id=project_id).values())
-        
+
         return JsonResponse(tasks, safe=False, status=200)
-    
+
     except OperationalError:
         return JsonResponse({'error': 'Database non disponibile'}, status=503)
